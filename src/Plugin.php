@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class Plugin {
 
 	public static $name = 'Kayako Plugin';
-	public static $description = 'Allows handling of Kayako emails and honeypots';
+	public static $description = 'Allows handling of Kayako Ticket Support/Helpdesk System';
 	public static $help = '';
 	public static $type = 'plugin';
 
