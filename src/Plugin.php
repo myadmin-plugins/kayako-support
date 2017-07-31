@@ -27,7 +27,7 @@ class Plugin {
 	 */
 	public static function getHooks() {
 		return [
-			//'system.settings' => [__CLASS__, 'getSettings'],
+			'system.settings' => [__CLASS__, 'getSettings'],
 			//'ui.menu' => [__CLASS__, 'getMenu'],
 		];
 	}
@@ -60,8 +60,9 @@ class Plugin {
 	 */
 	public static function getSettings(GenericEvent $event) {
 		$settings = $event->getSubject();
-		$settings->add_text_setting('General', 'Kayako', 'abuse_imap_user', 'Kayako IMAP User:', 'Kayako IMAP Username', ABUSE_IMAP_USER);
-		$settings->add_text_setting('General', 'Kayako', 'abuse_imap_pass', 'Kayako IMAP Pass:', 'Kayako IMAP Password', ABUSE_IMAP_PASS);
+		$settings->add_text_setting('Support', 'Kayako', 'kayako_api_url', 'Kayako API URL:', 'Kayako API URL', KAYAKO_API_URL);
+		$settings->add_text_setting('Support', 'Kayako', 'kayako_api_key', 'Kayako API Key:', 'Kayako API Key', KAYAKO_API_KEY);
+		$settings->add_text_setting('Support', 'Kayako', 'kayako_api_secret', 'Kayako API Secret:', 'Kayako API Secret', KAYAKO_API_SECRET);
 	}
 
 }
