@@ -54,10 +54,10 @@ class Plugin
 	public static function getRequirements(GenericEvent $event)
 	{
 		$loader = $event->getSubject();
-		$loader->add_requirement('class.Kayako', '/../vendor/detain/kayako-support/src/Kayako.php');
-		$loader->add_requirement('deactivate_kcare', '/../vendor/detain/kayako-support/src/abuse.inc.php');
-		$loader->add_requirement('deactivate_abuse', '/../vendor/detain/kayako-support/src/abuse.inc.php');
-		$loader->add_requirement('get_abuse_licenses', '/../vendor/detain/kayako-support/src/abuse.inc.php');
+		$loader->add_requirement('class.Kayako', '/../vendor/detain/myadmin-kayako-support/src/Kayako.php');
+		$loader->add_requirement('deactivate_kcare', '/../vendor/detain/myadmin-kayako-support/src/abuse.inc.php');
+		$loader->add_requirement('deactivate_abuse', '/../vendor/detain/myadmin-kayako-support/src/abuse.inc.php');
+		$loader->add_requirement('get_abuse_licenses', '/../vendor/detain/myadmin-kayako-support/src/abuse.inc.php');
 	}
 
 	/**
