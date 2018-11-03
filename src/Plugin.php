@@ -29,10 +29,49 @@ class Plugin
 	public static function getHooks()
 	{
 		return [
+            'api.register' => [__CLASS__, 'apiRegister'],
+            'function.requirements' => [__CLASS__, 'getRequirements'],
 			'system.settings' => [__CLASS__, 'getSettings'],
 			//'ui.menu' => [__CLASS__, 'getMenu'],
 		];
 	}
+
+    /**
+     * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+     */
+    public static function getRequirements(GenericEvent $event)
+    {
+        $loader = $event->getSubject();
+        $loader->add_requirement('openTicket','/../vendor/detain/myadmin-kayako-support/src/api.php');
+        $loader->add_requirement('getTicketList','/../vendor/detain/myadmin-kayako-support/src/api.php');
+        $loader->add_requirement('viewTicket','/../vendor/detain/myadmin-kayako-support/src/api.php');
+        $loader->add_requirement('ticketPost','/../vendor/detain/myadmin-kayako-support/src/api.php');
+    }
+    
+    /**
+     * @param \Symfony\Component\EventDispatcher\GenericEvent $event
+     */
+    public static function apiRegister(GenericEvent $event)
+    {
+        /**
+         * @var \ServiceHandler $subject
+         */
+        //$subject = $event->getSubject();
+        //api_register_array('getTicketList_tickets', 'complexType', 'array', '', 'SOAP-ENC:Array', [], [['ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'getTicketList_ticket[]']], 'getTicketList_ticket');
+        //api_register_array('postsArray', 'complexType', 'array', '', 'SOAP-ENC:Array', [], [['ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'postsDetail[]']], 'postsDetail');
+        api_register_array('getTicketList_ticket', ['ticket_reference_id' => 'string', 'subject' => 'string', 'lastreplier' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'replies' => 'string', 'lastactivity' => 'string']);
+        api_register_array('getTicketList_return', ['status' => 'string', 'status_text' => 'string', 'totalPages' => 'string', 'tickets' => 'getTicketList_tickets']);
+        api_register_array('openTicket_return', ['status' => 'string', 'status_text' => 'string', 'ticket_reference_id' => 'int']);
+        api_register_array('postsDetail', ['email' => 'string', 'full_name' => 'string', 'dateline' => 'string', 'contents' => 'string']);
+        api_register_array('view_ticketdetail_array', ['ticket_reference_id' => 'string', 'full_name' => 'string', 'email' => 'string', 'subject' => 'string', 'creationtime' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'lastactivity' => 'string', 'posts' => 'postsArray']);
+        api_register_array('view_ticket_return', ['status' => 'string', 'status_text' => 'string', 'result' => 'view_ticketdetail_array']);
+        api_register_array('ticket_post_return', ['status' => 'string', 'status_text' => 'string']);
+        api_register('getTicketList', ['page' =>'int', 'limit' => 'int', 'status' => 'string'], ['return' => 'getTicketList_return'], 'Returns a list of any tickets in the system.');
+        api_register('openTicket', ['user_email' => 'string', 'user_ip' => 'string', 'subject' => 'string', 'product' => 'string', 'body' => 'string', 'box_auth_value' => 'string'], ['return' => 'openTicket_return'], 'This command creates a new ticket in our system.');
+        api_register('viewTicket', ['ticketID' => 'string'], ['return' => 'view_ticket_return'], 'View/Retrieve information about the given ticketID.');
+        api_register('ticketPost', ['ticketID' => 'string', 'content' => 'string'], ['return' => 'ticket_post_return'], 'This commands adds the content parameter as a response/reply to an existing ticket specified by ticketID.');
+        //api_multi_register('getTicketList', ['sid' => 'string', 'user_email' => 'string'], ['return' => 'tns:api_return'], 'Gets ticket list');
+    }    
 
 	/**
 	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
