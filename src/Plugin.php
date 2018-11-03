@@ -58,7 +58,7 @@ class Plugin
         api_register('openTicket', ['user_email' => 'string', 'user_ip' => 'string', 'subject' => 'string', 'product' => 'string', 'body' => 'string', 'box_auth_value' => 'string'], ['return' => 'openTicket_return'], 'This command creates a new ticket in our system.');
         api_register('viewTicket', ['ticketID' => 'string'], ['return' => 'view_ticket_return'], 'View/Retrieve information about the given ticketID.');
         api_register('ticketPost', ['ticketID' => 'string', 'content' => 'string'], ['return' => 'ticket_post_return'], 'This commands adds the content parameter as a response/reply to an existing ticket specified by ticketID.');
-        //api_multi_register('getTicketList', ['sid' => 'string', 'user_email' => 'string'], ['return' => 'tns:api_return'], 'Gets ticket list');
+        //api_multi_register('getTicketList', ['sid' => 'string', 'user_email' => 'string'], ['return' => 'tns:result_status'], 'Gets ticket list');
     }    
 
 	/**
