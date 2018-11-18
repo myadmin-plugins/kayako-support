@@ -102,8 +102,8 @@ class Plugin
          * @var \MyAdmin\Settings $settings
          **/
         $settings = $event->getSubject();
-		$settings->add_text_setting(__('Support'), __('Kayako'), 'kayako_api_url', __('Kayako API URL'), __('Kayako API URL'), KAYAKO_API_URL);
-		$settings->add_text_setting(__('Support'), __('Kayako'), 'kayako_api_key', __('Kayako API Key'), __('Kayako API Key'), KAYAKO_API_KEY);
-		$settings->add_text_setting(__('Support'), __('Kayako'), 'kayako_api_secret', __('Kayako API Secret'), __('Kayako API Secret'), KAYAKO_API_SECRET);
+		$settings->add_text_setting(_('Support'), _('Kayako'), 'kayako_api_url', _('Kayako API URL'), _('Kayako API URL'), KAYAKO_API_URL);
+		$settings->add_text_setting(_('Support'), _('Kayako'), 'kayako_api_key', _('Kayako API Key'), _('Kayako API Key'), KAYAKO_API_KEY);
+		$settings->add_text_setting(_('Support'), _('Kayako'), 'kayako_api_secret', _('Kayako API Secret'), _('Kayako API Secret'), KAYAKO_API_SECRET);
 	}
 }
