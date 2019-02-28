@@ -429,7 +429,7 @@ function ticketPost($ticketID, $content)
 	} catch (Exception $e) {
 		$result['status'] = 'Failed';
 		$result['status_text'] = 'Kayako exception occurred adding post. Please try again!';
-		myadmin_log('api', 'info', $e->getMessage(), __LINE__, __FILE__);
+		myadmin_log('api', 'info', $e->getMessage(), __LINE__, __FILE__, $module);
 		return $result;
 	}
 }
