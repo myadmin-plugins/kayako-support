@@ -45,12 +45,12 @@ class Plugin
 		 * @var \ServiceHandler $subject
 		 */
 		//$subject = $event->getSubject();
-		//api_register_array('getTicketList_tickets', 'complexType', 'array', '', 'SOAP-ENC:Array', [], [['ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'getTicketList_ticket[]']], 'getTicketList_ticket');
-		//api_register_array('postsArray', 'complexType', 'array', '', 'SOAP-ENC:Array', [], [['ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'postsDetail[]']], 'postsDetail');
-		api_register_array('getTicketList_ticket', ['ticket_reference_id' => 'string', 'subject' => 'string', 'lastreplier' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'replies' => 'string', 'lastactivity' => 'string']);
-		api_register_array('getTicketList_return', ['status' => 'string', 'status_text' => 'string', 'totalPages' => 'string', 'tickets' => 'getTicketList_tickets']);
+        api_register_array_array('getTicketList_tickets', 'getTicketList_ticket');
+		api_register_array('getTicketList_ticket', ['ticket_id' => 'string', 'ticket_reference_id' => 'string', 'subject' => 'string', 'lastreplier' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'replies' => 'string', 'lastactivity' => 'string']);
+		api_register_array('getTicketList_return', ['status' => 'string', 'status_text' => 'string', 'totalPages' => 'string', 'tickets' => 'tns:getTicketList_tickets']);
 		api_register_array('openTicket_return', ['status' => 'string', 'status_text' => 'string', 'ticket_reference_id' => 'int']);
-		api_register_array('postsDetail', ['email' => 'string', 'full_name' => 'string', 'dateline' => 'string', 'contents' => 'string']);
+		api_register_array_array('postsArray', 'postsDetail');
+        api_register_array('postsDetail', ['email' => 'string', 'full_name' => 'string', 'dateline' => 'string', 'contents' => 'string']);
 		api_register_array('view_ticketdetail_array', ['ticket_reference_id' => 'string', 'full_name' => 'string', 'email' => 'string', 'subject' => 'string', 'creationtime' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'lastactivity' => 'string', 'posts' => 'postsArray']);
 		api_register_array('view_ticket_return', ['status' => 'string', 'status_text' => 'string', 'result' => 'view_ticketdetail_array']);
 		api_register_array('ticket_post_return', ['status' => 'string', 'status_text' => 'string']);

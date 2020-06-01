@@ -136,8 +136,13 @@ function openTicket($user_email, $user_ip, $subject, $product, $body, $box_auth_
 				/*box authentication encrypt*/
 				$post_data = null;
 				$post_data = [
-					'e'            => '/Tickets/TicketCustomField/' . $ticketId, 'qt2ks46z06b3' => $user_ip,
-					'f8uv0tmehivo' => $box_auth_encrypted, '7rhmrc90ksht' => $box_auth_key, 'apikey' => $apiKey, 'salt' => $salt, 'signature' => $signature
+					'e' => '/Tickets/TicketCustomField/' . $ticketId,
+                    'qt2ks46z06b3' => $user_ip,
+					'f8uv0tmehivo' => $box_auth_encrypted, 
+                    '7rhmrc90ksht' => $box_auth_key, 
+                    'apikey' => $apiKey, 
+                    'salt' => $salt, 
+                    'signature' => $signature
 				];
 				$post_data = http_build_query($post_data, '', '&');
 				$curl = curl_init($api_url);
@@ -190,7 +195,8 @@ function getTicketList($page =1, $limit = 10, $status = null)
 	$result = [
 		'status' => 'incomplete',
 		'status_text' => '',
-		'tickets' => []
+		'tickets' => [],
+        'totalPages' => 0,
 	];
 	try {
 		function_requirements('class.kyConfig');
@@ -236,33 +242,32 @@ function getTicketList($page =1, $limit = 10, $status = null)
 		$viewstatus = [4, 5, 6];
 		//$filterByStatus = 'On Hold';
 		$db->query("select * from swtickets where email='" . $db->real_escape($GLOBALS['tf']->accounts->data['account_lid']) . "' and ticketstatusid in (" . implode(',', $viewstatus) . ') ', __LINE__, __FILE__);
-		$page_count = $db->num_rows() /$limit;
+		$result['totalPages'] = $db->num_rows() /$limit;
 		$offset = ($page - 1) * $limit;
 		//if(null === $status) {
 		$db->query("select * from swtickets where email='" . $db->real_escape($GLOBALS['tf']->accounts->data['account_lid']) . "' and ticketstatusid in (" . implode(',', $viewstatus) . ') order by lastactivity desc limit '.$offset.', '.$limit.' ', __LINE__, __FILE__);
 		//} else {
 		//$db->query("select * from swtickets where email='" . $db->real_escape($GLOBALS['tf']->accounts->data['account_lid']) . "' and ticketstatusid = " . $new_status_array[$status] . ' order by lastactivity desc limit '.$offset.', '.$limit.' ', __LINE__, __FILE__);
 		//}
-		$idxV = 0;
 		while ($db->next_record(MYSQL_ASSOC)) {
-			$ticketArray[$idxV]['ticket_id'] = $db->Record['ticketid'];
-			$ticketArray[$idxV]['ticket_reference_id'] = $db->Record['ticketmaskid'];
-			$ticketArray[$idxV]['subject'] = $db->Record['subject'];
-			$ticketArray[$idxV]['lastreplier'] = $db->Record['lastreplier'];
-			$ticketArray[$idxV]['statustitle'] = $statusArray[$db->Record['ticketstatusid']];
-			$ticketArray[$idxV]['prioritytitle'] = $priorityArray[$db->Record['priorityid']];
-			$ticketArray[$idxV]['replies'] = $db->Record['repliestoresolution'];
-			$ticketArray[$idxV]['lastactivity'] = $db->Record['lastactivity'];
-			$idxV++;
+            $result['tickets'][] = [
+                'ticket_id' => (int)$db->Record['ticketid'],
+			    'ticket_reference_id' => $db->Record['ticketmaskid'],
+			    'subject' => $db->Record['subject'],
+			    'lastreplier' => $db->Record['lastreplier'],
+			    'statustitle' => $statusArray[$db->Record['ticketstatusid']],
+			    'prioritytitle' => $priorityArray[$db->Record['priorityid']],
+			    'replies' => $db->Record['repliestoresolution'],
+			    'lastactivity' => $db->Record['lastactivity'],
+            ];
 		}
-		$result['tickets'] = (isset($ticketArray) ? $ticketArray : '');
-		$result['totalPages'] = (isset($page_count) ? $page_count : '');
 		$result['status_text'] = 'List of tickets';
 		$result['status'] = 'ok';
 	} catch (Exception $e) {
 		$result['status'] = 'failed';
 		$result['status_text'] = 'Kayako exception occurred searching tickets. Please try again!';
 	}
+    //myadmin_log('myadmin', 'debug', json_encode($result), __LINE__, __FILE__);
 	return $result;
 }
 
