@@ -51,7 +51,7 @@ class Plugin
 		api_register_array('openTicket_return', ['status' => 'string', 'status_text' => 'string', 'ticket_reference_id' => 'int']);
 		api_register_array_array('postsArray', 'postsDetail');
         api_register_array('postsDetail', ['email' => 'string', 'full_name' => 'string', 'dateline' => 'string', 'contents' => 'string']);
-		api_register_array('view_ticketdetail_array', ['ticket_reference_id' => 'string', 'full_name' => 'string', 'email' => 'string', 'subject' => 'string', 'creationtime' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'lastactivity' => 'string', 'posts' => 'postsArray']);
+		api_register_array('view_ticketdetail_array', ['ticket_reference_id' => 'string', 'full_name' => 'string', 'email' => 'string', 'subject' => 'string', 'creationtime' => 'string', 'statustitle' => 'string', 'prioritytitle' => 'string', 'lastactivity' => 'string', 'posts' => 'tns:postsArray']);
 		api_register_array('view_ticket_return', ['status' => 'string', 'status_text' => 'string', 'result' => 'tns:view_ticketdetail_array']);
 		api_register_array('ticket_post_return', ['status' => 'string', 'status_text' => 'string']);
 		api_register('getTicketList', ['page' =>'int', 'limit' => 'int', 'status' => 'string'], ['return' => 'getTicketList_return'], 'Returns a list of any tickets in the system.');
