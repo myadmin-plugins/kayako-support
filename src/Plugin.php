@@ -103,7 +103,7 @@ class Plugin
          **/
         $settings = $event->getSubject();
         $settings->add_text_setting(_('Support'), _('Kayako'), 'kayako_api_url', _('Kayako API URL'), _('Kayako API URL'), KAYAKO_API_URL);
-        $settings->add_text_setting(_('Support'), _('Kayako'), 'kayako_api_key', _('Kayako API Key'), _('Kayako API Key'), KAYAKO_API_KEY);
-        $settings->add_text_setting(_('Support'), _('Kayako'), 'kayako_api_secret', _('Kayako API Secret'), _('Kayako API Secret'), KAYAKO_API_SECRET);
+        $settings->add_password_setting(_('Support'), _('Kayako'), 'kayako_api_key', _('Kayako API Key'), _('Kayako API Key'), KAYAKO_API_KEY);
+        $settings->add_password_setting(_('Support'), _('Kayako'), 'kayako_api_secret', _('Kayako API Secret'), _('Kayako API Secret'), KAYAKO_API_SECRET);
     }
 }
