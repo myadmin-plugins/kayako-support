@@ -355,7 +355,7 @@ function viewTicket($ticketID)
         }
         $result['status'] = 'Success';
         $result['status_text'] = 'Ticket details';
-        $result['result'] = isset($ticketDetailsArray) ? $ticketDetailsArray : '';
+        $result['result'] = $ticketDetailsArray ?? '';
         return $result;
     } catch (Exception $e) {
         $result['status'] = 'Failed';
