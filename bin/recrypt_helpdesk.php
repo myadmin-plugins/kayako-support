@@ -5,7 +5,7 @@
 * @author Joe Huss <detain@interserver.net>
 * @package MyAdmin
 * @category map_everything_to_my
-* @copyright 2020
+* @copyright 2025
 */
 use MyAdmin\Orm\Accounts_Ext;
 
