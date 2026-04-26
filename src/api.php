@@ -41,7 +41,7 @@ function openTicket($user_email, $user_ip, $subject, $product, $body, $box_auth_
         $result['status_text'] = 'User email is not valid. Please try again!';
         return $result;
     }
-    if ($GLOBALS['tf']->ima != 'admin' && $GLOBALS['tf']->accounts->data['account_lid'] != $user_email) {
+    if (\MyAdmin\App::ima() != 'admin' && \MyAdmin\App::accounts()->data['account_lid'] != $user_email) {
         $result['status'] = 'Failed';
         $result['status_text'] = 'Invalid Email Address - Does not match your account email!';
         return $result;
@@ -132,7 +132,7 @@ function openTicket($user_email, $user_ip, $subject, $product, $body, $box_auth_
                 /*box authentication encrypt*/
                 $box_auth_key = generateRandomString();
                 $finalString = $box_auth_value.'+'.$box_auth_key;
-                $box_auth_encrypted = $GLOBALS['tf']->encrypt($finalString);
+                $box_auth_encrypted = \MyAdmin\App::encrypt($finalString);
                 /*box authentication encrypt*/
                 $post_data = null;
                 $post_data = [
@@ -241,13 +241,13 @@ function getTicketList($page =1, $limit = 10, $status = null)
         $db = clone $GLOBALS['helpdesk_dbh'];
         $viewstatus = [4, 5, 6];
         //$filterByStatus = 'On Hold';
-        $db->query("select * from swtickets where email='" . $db->real_escape($GLOBALS['tf']->accounts->data['account_lid']) . "' and ticketstatusid in (" . implode(',', $viewstatus) . ') ', __LINE__, __FILE__);
+        $db->query("select * from swtickets where email='" . $db->real_escape(\MyAdmin\App::accounts()->data['account_lid']) . "' and ticketstatusid in (" . implode(',', $viewstatus) . ') ', __LINE__, __FILE__);
         $result['totalPages'] = $db->num_rows() /$limit;
         $offset = ($page - 1) * $limit;
         //if(null === $status) {
-        $db->query("select * from swtickets where email='" . $db->real_escape($GLOBALS['tf']->accounts->data['account_lid']) . "' and ticketstatusid in (" . implode(',', $viewstatus) . ') order by lastactivity desc limit '.$offset.', '.$limit.' ', __LINE__, __FILE__);
+        $db->query("select * from swtickets where email='" . $db->real_escape(\MyAdmin\App::accounts()->data['account_lid']) . "' and ticketstatusid in (" . implode(',', $viewstatus) . ') order by lastactivity desc limit '.$offset.', '.$limit.' ', __LINE__, __FILE__);
         //} else {
-        //$db->query("select * from swtickets where email='" . $db->real_escape($GLOBALS['tf']->accounts->data['account_lid']) . "' and ticketstatusid = " . $new_status_array[$status] . ' order by lastactivity desc limit '.$offset.', '.$limit.' ', __LINE__, __FILE__);
+        //$db->query("select * from swtickets where email='" . $db->real_escape(\MyAdmin\App::accounts()->data['account_lid']) . "' and ticketstatusid = " . $new_status_array[$status] . ' order by lastactivity desc limit '.$offset.', '.$limit.' ', __LINE__, __FILE__);
         //}
         while ($db->next_record(MYSQL_ASSOC)) {
             $result['tickets'][] = [
@@ -324,11 +324,11 @@ function viewTicket($ticketID)
         return $result;
     }
     try {
-        if ($GLOBALS['tf']->ima != 'admin' && $GLOBALS['tf']->accounts->data['account_lid'] != kyTicket::get($ticketID)->getUser()->getEmail()) {
+        if (\MyAdmin\App::ima() != 'admin' && \MyAdmin\App::accounts()->data['account_lid'] != kyTicket::get($ticketID)->getUser()->getEmail()) {
             //dialog('Access Error', 'This is not a ticket owned by you.  If you feel you arrived here in error then please contact support@interserver.net');
             $result['status'] = 'Failed';
             $result['status_text'] = 'Kayako exception occurred getting ticket priority. Please try again!';
-            myadmin_log('api', 'info', 'Denied view ticket because ' . kyTicket::get($ticketID)->getUser()->getEmail() . ' != ' . $GLOBALS['tf']->accounts->data['account_lid'], __LINE__, __FILE__);
+            myadmin_log('api', 'info', 'Denied view ticket because ' . kyTicket::get($ticketID)->getUser()->getEmail() . ' != ' . \MyAdmin\App::accounts()->data['account_lid'], __LINE__, __FILE__);
             return $result;
         }
     } catch (Exception $e) {
@@ -398,11 +398,11 @@ function ticketPost($ticketID, $content)
         return $result;
     }
     try {
-        if ($GLOBALS['tf']->ima != 'admin' && $GLOBALS['tf']->accounts->data['account_lid'] != kyTicket::get($ticketID)->getUser()->getEmail()) {
+        if (\MyAdmin\App::ima() != 'admin' && \MyAdmin\App::accounts()->data['account_lid'] != kyTicket::get($ticketID)->getUser()->getEmail()) {
             //dialog('Access Error', 'This is not a ticket owned by you.  If you feel you arrived here in error then please contact support@interserver.net');
             $result['status'] = 'Failed';
             $result['status_text'] = 'Kayako exception occurred getting ticket priority. Please try again!';
-            myadmin_log('api', 'info', 'Denied view ticket because ' . kyTicket::get($ticketID)->getUserId() . ' != ' . kyUser::search($GLOBALS['tf']->accounts->data['account_lid'])->current()->getId() . '(' . $GLOBALS['tf']->accounts->data['account_lid'] . ')', __LINE__, __FILE__);
+            myadmin_log('api', 'info', 'Denied view ticket because ' . kyTicket::get($ticketID)->getUserId() . ' != ' . kyUser::search(\MyAdmin\App::accounts()->data['account_lid'])->current()->getId() . '(' . \MyAdmin\App::accounts()->data['account_lid'] . ')', __LINE__, __FILE__);
             return $result;
         }
     } catch (Exception $e) {
