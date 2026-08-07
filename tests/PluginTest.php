@@ -273,6 +273,70 @@ class PluginTest extends TestCase
     }
 
     /**
+     * Tests that every source path registered by getRequirements() resolves to a file
+     * that actually exists inside this package.
+     *
+     * Nothing in this suite ever exercised getRequirements() before: the existing tests
+     * only inspect the hook table and the method signatures, so they never invoked the
+     * method and never touched the filesystem. That is why they stayed green for years
+     * while this package registered class.Kayako against src/Kayako.php and
+     * deactivate_kcare, deactivate_abuse and get_abuse_licenses against src/abuse.inc.php
+     * -- neither file has ever existed here. deactivate_kcare in particular was live and
+     * harmful: Loader::add_requirement() is last-write-wins and this package is registered
+     * after myadmin-cloudlinux-licensing on core's function.requirements hook, so the
+     * dangling path overwrote a working registration and core require_once'd a missing
+     * file. Asserting the registration table alone cannot catch that; asserting the
+     * filesystem can.
+     */
+    public function testEveryRegisteredRequirementSourceResolvesToAnExistingFile(): void
+    {
+        $loader = new class () {
+            /**
+             * @var array<string, string>
+             */
+            public array $requirements = [];
+
+            /**
+             * Mirrors \MyAdmin\Plugins\Loader::add_requirement().
+             *
+             * @param string $function
+             * @param string $source
+             * @param bool   $methods
+             */
+            public function add_requirement($function, $source, $methods = false): void
+            {
+                $this->requirements[$function] = $source;
+            }
+        };
+
+        Plugin::getRequirements(new GenericEvent($loader));
+
+        $this->assertNotEmpty(
+            $loader->requirements,
+            'getRequirements() registered nothing, so this test would be vacuous'
+        );
+
+        // Core resolves a requirement source as INCLUDE_ROOT . '/' . $source, and every
+        // source this package registers is of the form '/../vendor/<package>/<path>',
+        // which lands back inside this package directory.
+        $packagePrefix = '/../vendor/detain/myadmin-kayako-support/';
+        $packageRoot = dirname(__DIR__);
+
+        foreach ($loader->requirements as $function => $source) {
+            $this->assertIsString($source, "Source for '{$function}' should be a string path");
+            $this->assertStringStartsWith(
+                $packagePrefix,
+                $source,
+                "Requirement '{$function}' points outside this package: {$source}"
+            );
+            $this->assertFileExists(
+                $packageRoot . '/' . substr($source, strlen($packagePrefix)),
+                "Requirement '{$function}' registers '{$source}', which does not exist on disk"
+            );
+        }
+    }
+
+    /**
      * Tests that the getSettings method hook maps to the correct event.
      */
     public function testGetSettingsHookMapping(): void
