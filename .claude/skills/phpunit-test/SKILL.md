@@ -1,6 +1,6 @@
 ---
 name: phpunit-test
-description: Writes PHPUnit 9 tests mirroring patterns in `tests/ApiFunctionsTest.php` and `tests/PluginTest.php`. Stubs MyAdmin globals in `setUpBeforeClass()`, uses `ReflectionFunction`/`ReflectionClass` for signature checks, tests validation failures before live calls. Use when user says 'write tests', 'add test coverage', 'test this function'. Do NOT use for integration tests requiring a live Kayako instance. NOTE: for a plugin's contract/behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
+description: Writes PHPUnit 9 tests mirroring patterns in `tests/ApiFunctionsTest.php` and `tests/PluginTest.php`. Stubs MyAdmin globals in `setUpBeforeClass()`, uses `ReflectionFunction`/`ReflectionClass` for signature checks, tests validation failures before live calls. Use when user says 'write tests', 'add test coverage', 'test this function'. Do NOT use for integration tests requiring a live Kayako instance. For a plugin's contract or behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
 ---
 <!-- myadmin-contract-harness-notice -->
 > ### ⚠️ Read this before the rest of the file

@@ -1,6 +1,6 @@
 ---
 name: plugin-hook
-description: Adds a new event hook to src/Plugin.php — registers handler in getHooks(), implements the static method accepting GenericEvent, and wires up api_register/add_requirement/add_setting calls. Use when user says 'add hook', 'register new event', 'add plugin method', or needs to expose a new setting via getSettings(). Do NOT use for changes to src/api.php procedural functions. NOTE: for a plugin's contract/behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
+description: Adds a new event hook to src/Plugin.php — registers handler in getHooks(), implements the static method accepting GenericEvent, and wires up api_register/add_requirement/add_setting calls. Use when user says 'add hook', 'register new event', 'add plugin method', or needs to expose a new setting via getSettings(). Do NOT use for changes to src/api.php procedural functions. For a plugin's contract or behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
 ---
 <!-- myadmin-contract-harness-notice -->
 > ### ⚠️ Read this before the rest of the file

@@ -1,6 +1,6 @@
 ---
 name: kayako-api-function
-description: Adds a new procedural API function to `src/api.php` following the project's validation-first, try/catch-per-operation pattern. Initializes Kayako SOAP config, wraps each Kayako call in its own try/catch, returns status/status_text arrays. Use when user says 'add API function', 'new ticket operation', 'create endpoint in api.php', or 'add support function'. Do NOT use for modifying `src/Plugin.php` hook registration or for class-based API work. NOTE: for a plugin's contract/behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
+description: Adds a new procedural API function to `src/api.php` following the project's validation-first, try/catch-per-operation pattern. Initializes Kayako SOAP config, wraps each Kayako call in its own try/catch, returns status/status_text arrays. Use when user says 'add API function', 'new ticket operation', 'create endpoint in api.php', or 'add support function'. Do NOT use for modifying `src/Plugin.php` hook registration or for class-based API work. For a plugin's contract or behavioral tests (tests/ContractTest.php, the shared harness, composer myadmin:scaffold-tests) use the plugin-contract-tests skill instead — this skill's reflection-only guidance predates that harness.
 ---
 <!-- myadmin-contract-harness-notice -->
 > ### ⚠️ Read this before the rest of the file
