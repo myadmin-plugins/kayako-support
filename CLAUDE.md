@@ -28,7 +28,7 @@ vendor/bin/phpunit tests/ApiFunctionsTest.php
 
 **Utility Scripts** (`bin/`):
 - `bin/merge_staff.php` — merges duplicate staff records across `swstaff`, `swtickets`, and 50+ `sw*` tables
-- `bin/recrypt_helpdesk.php` — re-encrypts `swcustomfieldvalues.fieldvalue` with current key
+- `archive/recrypt_helpdesk.php` — archived one-off (not run): re-encrypted `swcustomfieldvalues.fieldvalue` via `decryptOld`
 
 **CI/CD** (`.github/workflows/`): GitHub Actions workflows for automated testing and deployment pipelines.
 
